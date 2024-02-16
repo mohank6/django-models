@@ -1,3 +1,24 @@
+# [Github Repo](https://github.com/mohank6/django-models/tree/dev)
+# Object Relational Mapping (ORM)
+
+ORM, is a programming technique that allows developers to interact with a relational database using an object-oriented programming language. It simplifies database interactions.
+
+## Pros of ORM
+
+- Abstraction
+- Database Independence
+- Code Reusability
+- Security
+
+## Cons of ORM:
+
+- Performance Overhead
+- Learning Curve
+- Limited Optimization Control
+- Complex Queries
+
+![](./images/orm.jpg)
+
 # Models
 **1. Define Models**
 - Define your database models in the `<app-name>/models.py` file.
@@ -109,3 +130,29 @@ In a OneToMany relationship,  each record in the first model can be related to m
     library.delete()
 ```
 - This will also delete all  the assocaited books since, Cascade it set on delete.
+
+# Note:
+```python
+    class Books:
+        library = models.ForeignKey(Library, on_delete=models.CASCADE)
+        ...
+```
+`on_delete` attribute is used to determine what shall be done when a record of parent model is deleted.
+### **Available options in django.models**
+### 1. CASCADE
+- In this case, if an library instance is deleted, all related Book instances will be deleted as well.
+
+### 2. SET_NULL
+- When an Library instance is deleted, the library field in all related Book instances will be set to NULL(requires `null=True`).
+
+### 3. SET_DEFAULT
+- When an Library instance is deleted, the library field in all related Book instances will be set to its default value(requires `default=value`).
+
+### 4. PROTECT
+- If an attempt is made to delete an Library instance with related Book instances, a ProtectedError will be raised.
+
+### 5. RESTRICT
+- Similar to PROTECT, but raises RestrictedError.
+
+### 6. DO_NOTHING
+-  This will do nothing when an Library instance is deleted. 
