@@ -131,6 +131,61 @@ In a OneToMany relationship,  each record in the first model can be related to m
 ```
 - This will also delete all  the assocaited books since, Cascade it set on delete.
 
+## ManyToMany Relationship
+`Student >-< Courses`
+
+In a ManyToMany relationship,  each record in the first model can be related to multiple records in the second model, and vice versa. To obtain this relationship we need a intermediary model which keeps track of related records from both models.
+
+**1. Import models**
+```python
+    from app.models import Course, Student
+```
+**2. Create Library and Book objects**
+```python 
+    student1 = Book.objects.create(**kwargs)
+    student2 = Book.objects.create(**kwargs)
+    course = Course.objects.create(**kwargs)
+``` 
+```python 
+    course.students.add(student1, student2)
+``` 
+**3. Read operations**
+```python
+    # student1 -> Student()
+    # Get enrolled courses of  a student
+    courses_of_student1 = student1.course_set.all()
+    # course -> Course()
+    # Get all students enrolled in a Course
+    students_in_course = course.students.all()
+```
+- If `related_name` is set
+```python
+    # student1 -> Student()
+    # Get enrolled courses of  a student
+    courses_of_student1 = student1.related_name.all()
+```
+
+**4. Update**
+```python
+    # course -> Course()
+    # Change a course name
+    course.name = "C++"
+    course.save()
+```
+
+**5. Delete**
+```python
+    # course -> Course()
+    # Delete a course
+    course.delete()
+```
+```python
+    # course -> Course()
+    # student1 -> Student()
+    # Remove a student from a course
+    course.students.remove(studen1)
+```
+
 # Note:
 ```python
     class Books:
